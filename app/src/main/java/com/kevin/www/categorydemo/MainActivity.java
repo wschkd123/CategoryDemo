@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private HomeAdapter homeAdapter;
     private int currentItem;
 
-    private TextView tv_title;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             showTitle.add(i);
             homeList.add(dataBean);
         }
-        tv_title.setText(categoryBean.getData().get(0).getModuleTitle());
 
         menuAdapter.notifyDataSetChanged();
         homeAdapter.notifyDataSetChanged();
@@ -69,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         lv_menu = (ListView) findViewById(R.id.lv_menu);
-        tv_title = (TextView) findViewById(R.id.tv_titile);
         lv_home = (ListView) findViewById(R.id.lv_home);
         menuAdapter = new MenuAdapter(this, menuList);
         lv_menu.setAdapter(menuAdapter);
@@ -82,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 menuAdapter.setSelectItem(position);
                 menuAdapter.notifyDataSetInvalidated();
-                tv_title.setText(menuList.get(position));
                 lv_home.setSelection(showTitle.get(position));
             }
         });
@@ -106,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
 //				lv_home.setSelection(current);
                 if (currentItem != current && current >= 0) {
                     currentItem = current;
-                    tv_title.setText(menuList.get(currentItem));
                     menuAdapter.setSelectItem(currentItem);
                     menuAdapter.notifyDataSetInvalidated();
                 }
