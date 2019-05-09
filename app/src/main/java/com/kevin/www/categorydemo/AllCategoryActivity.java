@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -25,7 +24,7 @@ import java.util.List;
  * desctiption：category demo
  * e-mail：wangzihang@xiaohongchun.com
  */
-public class MainActivity extends AppCompatActivity {
+public class AllCategoryActivity extends AppCompatActivity {
 
     private List<String> menuList = new ArrayList<>();
     private List<CategoryBean.DataBean> homeList = new ArrayList<>();
@@ -34,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
     private ListView lv_menu;
     private ListView lv_home;
 
-    private MenuAdapter menuAdapter;
-    private HomeAdapter homeAdapter;
+    private MenuCategoryAdapter mMenuCategoryAdapter;
+    private TopCategoryAdapter mTopCategoryAdapter;
     private int currentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_all_category);
         Fresco.initialize(this);
         initView();
         loadData();
@@ -60,24 +59,24 @@ public class MainActivity extends AppCompatActivity {
             homeList.add(dataBean);
         }
 
-        menuAdapter.notifyDataSetChanged();
-        homeAdapter.notifyDataSetChanged();
+        mMenuCategoryAdapter.notifyDataSetChanged();
+        mTopCategoryAdapter.notifyDataSetChanged();
     }
 
     private void initView() {
         lv_menu = (ListView) findViewById(R.id.lv_menu);
         lv_home = (ListView) findViewById(R.id.lv_home);
-        menuAdapter = new MenuAdapter(this, menuList);
-        lv_menu.setAdapter(menuAdapter);
+        mMenuCategoryAdapter = new MenuCategoryAdapter(this, menuList);
+        lv_menu.setAdapter(mMenuCategoryAdapter);
 
-        homeAdapter = new HomeAdapter(this, homeList);
-        lv_home.setAdapter(homeAdapter);
+        mTopCategoryAdapter = new TopCategoryAdapter(this, homeList);
+        lv_home.setAdapter(mTopCategoryAdapter);
 
         lv_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                menuAdapter.setSelectItem(position);
-                menuAdapter.notifyDataSetInvalidated();
+                mMenuCategoryAdapter.setSelectItem(position);
+                mMenuCategoryAdapter.notifyDataSetInvalidated();
                 lv_home.setSelection(showTitle.get(position));
             }
         });
@@ -101,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
 //				lv_home.setSelection(current);
                 if (currentItem != current && current >= 0) {
                     currentItem = current;
-                    menuAdapter.setSelectItem(currentItem);
-                    menuAdapter.notifyDataSetInvalidated();
+                    mMenuCategoryAdapter.setSelectItem(currentItem);
+                    mMenuCategoryAdapter.notifyDataSetInvalidated();
                 }
             }
         });

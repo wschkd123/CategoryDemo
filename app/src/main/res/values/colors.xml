@@ -13,4 +13,7 @@
     <color name="pink">#ffc0cb</color>
     <color name="transparent">#00000000</color>
     <color name="green">#FF34A350</color>
+
+    <color name="text_default">#999999</color>
+    <color name="text_select">#141414</color>
 </resources>

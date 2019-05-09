@@ -1,33 +1,28 @@
 package com.kevin.www.categorydemo;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
 /**
- * author：wangzihang
- * date： 2017/8/8 19:15
- * desctiption：
- * e-mail：wangzihang@xiaohongchun.com
+ * 右侧主界面ListView的适配器
+ *
+ * @author Administrator
  */
-
-public class HomeItemAdapter extends BaseAdapter {
+public class TopCategoryAdapter extends BaseAdapter {
 
     private Context context;
-    private List<CategoryBean.DataBean.DataListBean> foodDatas;
+    private List<CategoryBean.DataBean> foodDatas;
 
-    public HomeItemAdapter(Context context, List<CategoryBean.DataBean.DataListBean> foodDatas) {
+    public TopCategoryAdapter(Context context, List<CategoryBean.DataBean> foodDatas) {
         this.context = context;
         this.foodDatas = foodDatas;
     }
-
 
     @Override
     public int getCount() {
@@ -51,28 +46,27 @@ public class HomeItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CategoryBean.DataBean.DataListBean subcategory = foodDatas.get(position);
+        CategoryBean.DataBean dataBean = foodDatas.get(position);
+        List<CategoryBean.DataBean.DataListBean> dataList = dataBean.getDataList();
         ViewHold viewHold = null;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_home_category, null);
+            convertView = View.inflate(context, R.layout.category_top_item, null);
             viewHold = new ViewHold();
-            viewHold.tv_name = (TextView) convertView.findViewById(R.id.item_home_name);
-            viewHold.iv_icon = (SimpleDraweeView) convertView.findViewById(R.id.item_album);
+            viewHold.gridView = (GridViewForScrollView) convertView.findViewById(R.id.gridView);
+            viewHold.blank = (TextView) convertView.findViewById(R.id.blank);
             convertView.setTag(viewHold);
         } else {
             viewHold = (ViewHold) convertView.getTag();
         }
-        viewHold.tv_name.setText(subcategory.getTitle());
-        Uri uri = Uri.parse(subcategory.getImgURL());
-        viewHold.iv_icon.setImageURI(uri);
+        SecondCategoryAdapter adapter = new SecondCategoryAdapter(context, dataList);
+        viewHold.blank.setText(dataBean.getModuleTitle());
+        viewHold.gridView.setAdapter(adapter);
         return convertView;
-
-
     }
 
     private static class ViewHold {
-        private TextView tv_name;
-        private SimpleDraweeView iv_icon;
+        private GridViewForScrollView gridView;
+        private TextView blank;
     }
 
 }
